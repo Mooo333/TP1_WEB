@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const Schema = mongoose.Schema;
 
-const SuccursaleSchema = new Succursale({
+const succursaleSchema = new Succursale({
 
     // ID généré aléatoirement
     appelatif: String,
@@ -14,3 +14,12 @@ const SuccursaleSchema = new Succursale({
     telecopieur: String,
     information: String,
 })
+
+succursaleSchema.virtual('inventaires', {
+	ref: 'Package',
+	localField: '_id',
+	foreignField: 'shipment',
+	justOne: false
+});
+
+mongoose.model('Succursale', succursaleSchema);
