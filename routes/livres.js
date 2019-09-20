@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const router = express.Router();
-const Succursale = mongoose.model('livre');
+const Succursale = mongoose.model('Livre');
 
 router.post("/livres/{uuidLivre}", async(req, res, next) => {
 
