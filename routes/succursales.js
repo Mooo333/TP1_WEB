@@ -52,3 +52,10 @@ router.get('/succursales/{uuidSuccursale}', async (req, res, next, uuidSuccursal
         next(new createError.InternalServerError(err.message));
     }
 });
+
+router.post("/succursales", async(req, res, next) => {
+
+});
+router.post("/succursale/{uuidSucursale}", async(req, res, next) => {
+    
+});
