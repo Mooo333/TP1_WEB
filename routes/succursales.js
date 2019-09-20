@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const Succursale = mongoose.model('Succursale');
 
-router.get('/', async (req, res, next) => {
+router.get('/succursales/{uuidSuccursale}', async (req, res, next, uuidSuccursale) => {
 
     let limit = 5;
     let offset = 0;
@@ -20,17 +20,16 @@ router.get('/', async (req, res, next) => {
 
     try {
         let fields = {};
-        let filter = {};
         if (req.query.fields) {
             fields = req.query.fields.replace(/,/g, ' ');
         }
 
-        if (req.query.service) {
-            filter.service = req.query.service;
+        if (req.query.expand) {
+
         }
 
         let results = await Promise.all([
-            Succursale.find(filter, fields)
+            Succursale.find({}, fields)
                /* .sort({ 'shipDate': -1 }).limit(limit).skip(offset),
             Succursale.countDocuments()*/
         ]);
