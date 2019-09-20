@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const Succursale = mongoose.model('Succursale');
 
-router.get('/succursales/{uuidSuccursale}', async (req, res, next, uuidSuccursale) => {
+router.get('/{uuidSuccursale}', async (req, res, next, uuidSuccursale) => {
 
     let limit = 5;
     let offset = 0;
@@ -53,9 +53,9 @@ router.get('/succursales/{uuidSuccursale}', async (req, res, next, uuidSuccursal
     }
 });
 
-router.post("/succursales", async(req, res, next) => {
+router.post("/", async(req, res, next) => {
 
 });
-router.post("/succursale/{uuidSucursale}", async(req, res, next) => {
+router.post("/{uuidSucursale}", async(req, res, next) => {
     
 });
