@@ -11,3 +11,4 @@ router.post("/livres/{uuidLivre}", async(req, res, next) => {
 router.get("/{uuidLivre}/inventaire", async(req, res, next) => {
     
 });
+module.exports = router;

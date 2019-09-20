@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const Schema = mongoose.Schema;
 
-const succursaleSchema = new Succursale({
+const succursaleSchema = new Schema({
 
     // ID généré aléatoirement
     appelatif: String,

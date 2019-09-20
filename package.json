@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Mooo333/TP1_WEB#readme",
   "dependencies": {
     "config": "^3.2.2",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.7.1"
   },

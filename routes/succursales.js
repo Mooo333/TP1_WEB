@@ -59,3 +59,5 @@ router.post("/", async(req, res, next) => {
 router.post("/{uuidSucursale}", async(req, res, next) => {
     
 });
+
+module.exports = router;

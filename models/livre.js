@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const Schema = mongoose.Schema;
 
-const livreSchema = new Livre({
+const livreSchema = new Schema({
 
     // ID généré aléatoirement
     categorie: String,
