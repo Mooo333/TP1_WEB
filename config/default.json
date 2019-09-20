@@ -1,0 +1,12 @@
+{
+    "env":"default",
+    "api":{
+        "name":"Librairie",
+        "version":"1.0.0",
+        "baseUrl":"http://localhost:4500",
+        "port":4500
+    },
+    "dbConfig": {
+        "url":"mongodb+srv://Mo:Mo@web-ftszn.mongodb.net/Librairie?retryWrites=true&w=majority"
+    }
+}
