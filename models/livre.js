@@ -18,3 +18,12 @@ const livreSchema = new Livre({
         etoile: Number
 	}]
 })
+
+livreSchema.virtual('inventaires', {
+	ref: 'Inventaire',
+	localField: '_id',
+	foreignField: 'livre',
+	justOne: false
+});
+
+mongoose.model('Livre', livreSchema);

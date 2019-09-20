@@ -16,9 +16,9 @@ const succursaleSchema = new Succursale({
 })
 
 succursaleSchema.virtual('inventaires', {
-	ref: 'Package',
+	ref: 'Inventaire',
 	localField: '_id',
-	foreignField: 'shipment',
+	foreignField: 'succursale',
 	justOne: false
 });
 
