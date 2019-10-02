@@ -27,22 +27,22 @@ router.get("/categories", async(req, res, next) => {
 // URL:        /livres/{uuidLivre}
 // Parametres: expand (collection d'inventaire) & fields (select. attrib. spécif.)
 // Réponse:    Objet
-router.get("/livres/:uuidLivre", async(req, res, next) => {
+router.get("/livres/:_id", async(req, res, next) => {
     // Sélection d'un livre
     try {
         // Trouver le livre à l'aide du _id
-        let livreCherche = await Livre.findOne({ uuidLivre: req.params._id });
+        let livreCherche = await Livre.find({ _id: req.params._id });
     
         if(req.query.expand === 'livres') {
             livreCherche.populate('livres');
         }
 
         let livres = await livreCherche;
-
+/*
         if (livres.length === 0) {
             next(new createError.NotFound());
         }
-
+*/
         res.status(200).json(livres[0]);
 
     } catch (err) {
