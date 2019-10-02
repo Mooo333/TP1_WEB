@@ -16,7 +16,8 @@ router.get("/{uuidLivre}/inventaire", async(req, res, next) => {
 // URL:        /categories
 // Réponse:    Collection sans meta-data
 router.get("/categories", async(req, res, next) => {
-    
+    res.status(200);
+    res.end('La route categories');
 });
 // URL:        /livres/{uuidLivre}
 // Parametres: expand (collection d'inventaire) & fields (select. attrib. spécif.)
