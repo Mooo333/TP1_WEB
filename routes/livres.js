@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const router = express.Router();
-const Succursale = mongoose.model('Livre');
+const Livre = mongoose.model('Livre');
+//const Inventaire = mongoose.model('Inventaire');
 
 router.post("/livres/{uuidLivre}", async(req, res, next) => {
 
@@ -16,27 +17,40 @@ router.get("/{uuidLivre}/inventaire", async(req, res, next) => {
 // URL:        /categories
 // Réponse:    Collection sans meta-data
 router.get("/categories", async(req, res, next) => {
+    // Sélection de toutes les catégories
+
     res.status(200);
     res.end('La route categories');
 });
 // URL:        /livres/{uuidLivre}
 // Parametres: expand (collection d'inventaire) & fields (select. attrib. spécif.)
 // Réponse:    Objet
-router.get("/livres/{uuidLivre}", async(req, res, next) => {
+router.get("/livres/:ISBN", async(req, res, next) => {
+    // Sélection d'un livre
+    try {
+        // Trouver le livre à l'aide du uuidLivre
+        //let livreCherche = await Livre.findOne({ ISBN: req.params.ISBN});
+        
     
+
+    } catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
+
 });
 // URL:        /livres/{uuidLivre}
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
 // Réponse:    Objet
 router.patch("/livres/{uuidLivre}", async(req, res, next) => {
-    
+    // Mise à jour partielle d'un livre
 });
 // URL:        /livres/{uuidLivre}/commentaires
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
 // Réponse:    Objet
 // Ajouter un header
 router.post("/livres/{uuidLivre}/commentaires", async(req, res, next) => {
-    
+    // Ajouter un commentaire à propos d'un livre
+
 });
 
 
