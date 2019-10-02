@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const moment = require('moment');
+const createError = require('http-errors');
 
 const router = express.Router();
 const Livre = mongoose.model('Livre');
@@ -25,13 +27,23 @@ router.get("/categories", async(req, res, next) => {
 // URL:        /livres/{uuidLivre}
 // Parametres: expand (collection d'inventaire) & fields (select. attrib. spécif.)
 // Réponse:    Objet
-router.get("/livres/:ISBN", async(req, res, next) => {
+router.get("/livres/:uuidLivre", async(req, res, next) => {
     // Sélection d'un livre
     try {
-        // Trouver le livre à l'aide du uuidLivre
-        //let livreCherche = await Livre.findOne({ ISBN: req.params.ISBN});
-        
+        // Trouver le livre à l'aide du _id
+        let livreCherche = await Livre.findOne({ uuidLivre: req.params._id });
     
+        if(req.query.expand === 'livres') {
+            livreCherche.populate('livres');
+        }
+
+        let livres = await livreCherche;
+
+        if (livres.length === 0) {
+            next(new createError.NotFound());
+        }
+
+        res.status(200).json(livres[0]);
 
     } catch (err) {
         next(new createError.InternalServerError(err.message));
