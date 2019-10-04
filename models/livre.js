@@ -17,6 +17,9 @@ const livreSchema = new Schema({
         message: String,
         etoile: Number
 	}]
+},{
+    collection: 'Livres',
+    virtuals: true,
 })
 
 livreSchema.virtual('inventaires', {

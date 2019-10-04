@@ -27,23 +27,24 @@ router.get("/categories", async(req, res, next) => {
 // URL:        /livres/{uuidLivre}
 // Parametres: expand (collection d'inventaire) & fields (select. attrib. spécif.)
 // Réponse:    Objet
-router.get("/livres/:_id", async(req, res, next) => {
+router.get("/:id", async(req, res, next) => {
     // Sélection d'un livre
     try {
         // Trouver le livre à l'aide du _id
-        let livreCherche = await Livre.find({ _id: req.params._id });
+        let livreCherche = await Livre.find({});
     
-        if(req.query.expand === 'livres') {
-            livreCherche.populate('livres');
+        console.log(livreCherche);
+        if(req.query.expand === 'inventaires') {
+            livreCherche.populate('inventaires');
         }
 
-        let livres = await livreCherche;
+       // let livres = await livreCherche;
 /*
         if (livres.length === 0) {
             next(new createError.NotFound());
         }
 */
-        res.status(200).json(livres[0]);
+        res.status(200).json(livreCherche);
 
     } catch (err) {
         next(new createError.InternalServerError(err.message));
