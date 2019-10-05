@@ -17,6 +17,9 @@ const inventaireSchema = new mongoose.Schema({
         ref: 'Succursale'
     }
 },{
+    collection: 'Inventaires',
+    //virtuals: true,
+},{
     collection: 'livres',
     toJSON: {
         transform: function(doc, ret) {

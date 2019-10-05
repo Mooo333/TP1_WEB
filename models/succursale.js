@@ -13,6 +13,9 @@ const succursaleSchema = new Schema({
     telephone: String,
     telecopieur: String,
     information: String,
+},{
+    collection: 'Succursales',
+    virtuals: true,
 })
 
 succursaleSchema.virtual('inventaires', {
