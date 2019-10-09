@@ -29,4 +29,12 @@ livreSchema.virtual('inventaires', {
 	justOne: false
 });
 
+livreSchema.methods.link = function() {
+    
+    const _id = this._id;
+    const bookHref = `${config.api.baseUrl}/livres/${_id}`;
+
+    return bookHref;
+}
+
 mongoose.model('Livre', livreSchema);

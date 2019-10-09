@@ -2,10 +2,54 @@ const express = require('express');
 const mongoose = require('mongoose');
 const moment = require('moment');
 const createError = require('http-errors');
+const bodyParser = require('body-parser');
 
 const router = express.Router();
 const Livre = mongoose.model('Livre');
 //const Inventaire = mongoose.model('Inventaire');
+
+// *** Route a Francis *** //
+// Corp de req : le livre
+// To return : le livre ajouter (ou rien si po de livre add)
+router.post("/", async(req, res, next) => {
+
+    const newLivre = new Livre(req.body);
+    const bookHref = newLivre.link();
+
+    if(newLivre){
+        try {
+            let saveLivre = await newLivre.save();
+            res.status(201);
+
+            saveLivre = saveLivre.toJSON();
+            res.header('Location', bookHref);
+            res.json(saveLivre);
+
+        } catch (err) {
+            next(new createError.InternalServerError(err.message));
+        }
+    }
+    else
+        next(new createError.BadRequest("Le livre voulant être enregistrer n'a pas pu l'être à cause que la requête n'est pas complète."));
+});
+
+// Corp de req : rien
+// To return : tous les livres (si param cat, limiter la liste selon le critere)
+router.get("/", async(req, res, next) => {
+    try {
+        let livresCherche;
+    
+        if(req.query.categorie) 
+            livresCherche = await Livre.find({categorie: req.query.categorie});
+        else
+            livresCherche = await Livre.find({});
+
+        res.status(200).json(livresCherche);
+
+    } catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
+});
 
 router.post("/livres/{uuidLivre}", async(req, res, next) => {
 
