@@ -1,48 +1,33 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const createError = require('http-errors');
 
 const router = express.Router();
 const Succursale = mongoose.model('Succursale');
+const Inventaire = mongoose.model('Inventaire');
 
-router.get('/:uuidSuccursale', async (req, res, next) => {
-
-    //Gestion du batching/paging
-    if (req.query.limit && req.query.offset) {
-        limit = parseInt(req.query.limit, 10);
-        offset = parseInt(req.query.offset, 10);
-
-        if (isNaN(limit) || isNaN(offset)) {
-            next(new createError.BadRequest('Invalid format for limit or offset'));
-        }
-    }
+router.get('/:id', async (req, res, next) => {
 
     try { 
         let fields = {};
+        let inventory = {};
+
         if (req.query.fields) {
             fields = req.query.fields.replace(/,/g, ' ');
         }
 
-        if (req.query.expand) {
+        let results = await Promise.all([
+            Succursale.find({_id: req.params.id}, fields)
+        ]);
+
+        if (req.query.expand === "inventaires") {
+            Inventaire.find({})
+        }
+        else {
 
         }
 
-        let results = await Promise.all([
-            Succursale.find({}, fields)
-               /* .sort({ 'shipDate': -1 }).limit(limit).skip(offset),
-            Succursale.countDocuments()*/
-        ]);
-
-        let responseBody = {};
-
-        responseBody.metadata = {};
-        responseBody.metadata.resultset = {
-            count: results[0].length,
-            total: results[1]
-        };
-
-        responseBody.results = results[0];
-
-        res.status(200).json(responseBody);
+        res.status(200).json(results[0]);
 
     } catch (err) {
         next(new createError.InternalServerError(err.message));
