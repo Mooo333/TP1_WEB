@@ -101,11 +101,14 @@ router.patch("/livres/{uuidLivre}", async(req, res, next) => {
     try {
         let livreCherche = await Livre.findOne({_id: req.params.uuidLivre}); // Trouver le bon livre à corriger
         const patchLivre = req.body;
-        livreCherche.update({$set: patchLivre})
 
+
+        
+        //livreCherche.update({$set: patchLivre})
+     
 
     } catch (err) {
-        next(new createError.BadRequest(err))
+        next(new createError.BadRequest("N'a pas passé"))
     }
 
 
