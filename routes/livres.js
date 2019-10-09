@@ -96,16 +96,13 @@ router.get("/:uuidLivre", async(req, res, next) => {
 // URL:        /livres/{uuidLivre}
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
 // Réponse:    Objet
-router.patch("/livres/{uuidLivre}", async(req, res, next) => {
+router.patch("/:uuidLivre", async(req, res, next) => {
     // Mise à jour partielle d'un livre
     try {
         let livreCherche = await Livre.findOne({_id: req.params.uuidLivre}); // Trouver le bon livre à corriger
         const patchLivre = req.body;
-
-
-        
-        //livreCherche.update({$set: patchLivre})
-     
+        livreCherche.update({$set: {categorie:patchLivre.categorie}})
+        console.log("la2");
 
     } catch (err) {
         next(new createError.BadRequest("N'a pas passé"))
@@ -117,7 +114,7 @@ router.patch("/livres/{uuidLivre}", async(req, res, next) => {
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
 // Réponse:    Objet
 // Ajouter un header
-router.post("/livres/{uuidLivre}/commentaires", async(req, res, next) => {
+router.post("/livres/:uuidLivre/commentaires", async(req, res, next) => {
     // Ajouter un commentaire à propos d'un livre
 
 });
