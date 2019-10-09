@@ -15,7 +15,7 @@ router.get("/{uuidLivre}/inventaire", async(req, res, next) => {
     
 });
 
-// ******* Routes de Maude *******
+// ******************************* Routes de Maude *******************************
 // URL:        /categories
 // Réponse:    Collection sans meta-data
 router.get("/categories", async(req, res, next) => {
@@ -27,26 +27,25 @@ router.get("/categories", async(req, res, next) => {
 // URL:        /livres/{uuidLivre}
 // Parametres: expand (collection d'inventaire) & fields (select. attrib. spécif.)
 // Réponse:    Objet
-router.get("/:id", async(req, res, next) => {
+router.get("/:uuidLivre", async(req, res, next) => {
     // Sélection d'un livre
     try {
         // Trouver le livre à l'aide du _id
-        let livreCherche = await Livre.find({});
+        let livreCherche = await Livre.findOne({_id: req.params.uuidLivre});
     
         console.log(livreCherche);
         if(req.query.expand === 'inventaires') {
             livreCherche.populate('inventaires');
         }
 
-       // let livres = await livreCherche;
-/*
-        if (livres.length === 0) {
+        if (livreCherche.length === 0) {
             next(new createError.NotFound());
         }
-*/
+
         res.status(200).json(livreCherche);
 
     } catch (err) {
+
         next(new createError.InternalServerError(err.message));
     }
 
@@ -67,7 +66,7 @@ router.post("/livres/{uuidLivre}/commentaires", async(req, res, next) => {
 });
 
 
-// *******************************
+// *****************************************************************************************
 
 router.delete('/', (req, res, next) => {
     next(new createError.MethodNotAllowed());
