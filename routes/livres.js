@@ -77,7 +77,6 @@ router.get("/:uuidLivre", async(req, res, next) => {
         // Trouver le livre à l'aide du _id
         let livreCherche = await Livre.findOne({_id: req.params.uuidLivre});
     
-        console.log(livreCherche);
         if(req.query.expand === 'inventaires') {
             livreCherche.populate('inventaires');
         }
