@@ -89,7 +89,7 @@ router.get("/:uuidLivre", async(req, res, next) => {
 
     } catch (err) {
 
-        next(new createError.InternalServerError(err.message));
+        next(new createError.InternalServerError(err.message)); 
     }
 
 });
@@ -101,8 +101,17 @@ router.patch("/:uuidLivre", async(req, res, next) => {
     try {
         let livreCherche = await Livre.findOne({_id: req.params.uuidLivre}); // Trouver le bon livre à corriger
         const patchLivre = req.body;
-        livreCherche.update({$set: {categorie:patchLivre.categorie}})
-        console.log("la2");
+        console.log(patchLivre);
+        // livreCherche.update({_id:req.params.uuidLivre}, {$set: {categorie:patchLivre.categorie}})
+        // livreCherche.update({}, {$set: {"categorie":patchLivre.categorie}}, false, true)
+        // livreCherche.update({"_id":req.params.uuidLivre}, {$set: {"categorie":patchLivre.categorie}}, false, true)
+        // livreCherche.update({"_id":req.params.uuidLivre}, {$set: {patchLivre}}, false, true)
+        // livreCherche.update({}, {$set: {patchLivre}}, false, true)
+        
+        let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: {patchLivre}})
+      
+        console.log(savedLivre);
+        res.status(201).json(savedLivre);
 
     } catch (err) {
         next(new createError.BadRequest("N'a pas passé"))

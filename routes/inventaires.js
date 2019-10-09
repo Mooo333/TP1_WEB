@@ -11,7 +11,6 @@ router.post('/', (req, res, next) =>{
     next(new createError.BadRequest("Route non créée"));
 })
 
-
 router.delete('/', (req, res, next) => {
     next(new createError.MethodNotAllowed());
 }); 
