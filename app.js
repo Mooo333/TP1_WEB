@@ -7,10 +7,10 @@ const lib = require('./lib');
 const app = express();
 
 //lib.logger(app);
-/*
+
 app.use(cors()); // Activation des cross-origin requests
 app.use(express.json()); // Communication en JSON avec le client
-app.set('view engine','pug');*/
+//app.set('view engine','pug');
 
 //Configuration de la base de données
 require('./lib/database');

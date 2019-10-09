@@ -6,8 +6,6 @@ const Succursale = mongoose.model('Succursale');
 
 router.get('/:uuidSuccursale', async (req, res, next) => {
 
-    let limit = 5;
-    let offset = 0;
     //Gestion du batching/paging
     if (req.query.limit && req.query.offset) {
         limit = parseInt(req.query.limit, 10);
@@ -18,7 +16,7 @@ router.get('/:uuidSuccursale', async (req, res, next) => {
         }
     }
 
-    try {
+    try { 
         let fields = {};
         if (req.query.fields) {
             fields = req.query.fields.replace(/,/g, ' ');
@@ -39,8 +37,6 @@ router.get('/:uuidSuccursale', async (req, res, next) => {
         responseBody.metadata = {};
         responseBody.metadata.resultset = {
             count: results[0].length,
-            limit: limit,
-            offset: offset,
             total: results[1]
         };
 
