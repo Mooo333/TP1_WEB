@@ -98,6 +98,17 @@ router.get("/:uuidLivre", async(req, res, next) => {
 // Réponse:    Objet
 router.patch("/livres/{uuidLivre}", async(req, res, next) => {
     // Mise à jour partielle d'un livre
+    try {
+        let livreCherche = await Livre.findOne({_id: req.params.uuidLivre}); // Trouver le bon livre à corriger
+        const patchLivre = req.body;
+        livreCherche.update({$set: patchLivre})
+
+
+    } catch (err) {
+        next(new createError.BadRequest(err))
+    }
+
+
 });
 // URL:        /livres/{uuidLivre}/commentaires
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
