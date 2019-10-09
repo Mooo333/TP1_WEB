@@ -75,7 +75,7 @@ router.get("/:id", async(req, res, next) => {
     // Sélection d'un livre
     try {
         // Trouver le livre à l'aide du _id
-        let livreCherche = await Livre.find({});
+        let livreCherche = await Livre.find({_id: req.params.id});
     
         console.log(livreCherche);
         if(req.query.expand === 'inventaires') {
