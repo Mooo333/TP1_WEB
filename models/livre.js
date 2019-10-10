@@ -23,11 +23,10 @@ const livreSchema = new Schema({
     toJSON: {
         transform: function(doc, ret) {
             ret.href = `${config.api.baseUrl}/livres/${doc._id}`;
+            ret.inventaires = doc.inventaires;
             if(!ret.inventaires){
-                let inv = Inventaire.findOne({_id:"5d9f636d21c268248078f427"});
-                ret.inventaires = inv;
-
-                ret.inventaires = ret.inventaires.linkingBook(doc._id,false);
+                ret.inventaires = {};
+                ret.inventaires.href = `${ret.href}/inventaires`;
             }
             else {
                 doc.inventaires.forEach((inv, i) => {

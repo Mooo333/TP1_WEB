@@ -4,24 +4,24 @@ const createError = require('http-errors');
 
 const router = express.Router();
 const Succursale = mongoose.model('Succursale');
-const Inventaire = mongoose.model('Inventaire');
 
 router.get('/:id', async (req, res, next) => {
 
     try { 
         let fields = {};
-        let inventory = {};
 
         if (req.query.fields) {
             fields = req.query.fields.replace(/,/g, ' ');
         }
 
-        let results = Succursale.find({_id: req.params.id}, fields);
+        let query = Succursale.find({_id: req.params.id}, fields);
 
         if(req.query.expand === 'inventaires')
-            results.populate('inventaires');
+            query.populate('inventaires');
 
-        res.status(200).json(results[0]);
+        let results = await query;
+
+        res.status(200).json(results);
 
     } catch (err) {
         next(new createError.InternalServerError(err.message));
@@ -47,5 +47,15 @@ router.patch('/', (req, res, next) => {
 router.put('/', (req, res, next) => {
     next(new createError.MethodNotAllowed());
 });
+
+function errorMessage(res,devMsg,usrMsg,errorCode,info){
+    res.status(errorCode);
+    res.json({
+        "developerMessage" : devMsg,
+        "userMessage" : usrMsg,
+        "errorCode" : errorCode,
+        "moreInfo" : info
+    });
+}
 
 module.exports = router;

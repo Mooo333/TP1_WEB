@@ -20,7 +20,6 @@ require('./models');
 
 const routes = require('./routes');
 
-//app.use('/inventaires', routes.inventaires);
 app.use('/livres', routes.livres);
 app.use('/succursales', routes.succursales);
 app.use('/inventaires', routes.inventaires);

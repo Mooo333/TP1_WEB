@@ -5,7 +5,6 @@ const createError = require('http-errors');
 
 const router = express.Router();
 const Livre = mongoose.model('Livre');
-//const Inventaire = mongoose.model('Inventaire');
 
 // *** Route a Francis *** //
 // Corp de req : le livre
@@ -35,17 +34,35 @@ router.post("/", async(req, res, next) => {
 // To return : tous les livres (si param cat, limiter la liste selon le critere)
 router.get("/", async(req, res, next) => {
     try {
-        let livresCherche;
-    
-        if(req.query.categorie) 
-            livresCherche = await Livre.find({categorie: req.query.categorie});
-        else
-            livresCherche = await Livre.find({});
+        let limit = 5;
+        let offset = 0;
 
-        res.status(200).json(livresCherche);
+        let livreQuery;
+        if(req.query.categorie) 
+            livreQuery = Livre.find({categorie: req.query.categorie}).limit(limit).skip(offset);
+        else
+            livreQuery = Livre.find({}).limit(limit).skip(offset);
+
+        livreQuery.populate('inventaires');
+        livresCherche = await livreQuery;
+
+        let responseBody = {};
+        let totalBook = await Livre.countDocuments();
+
+        responseBody.metadata = {};
+        responseBody.metadata.resultset = {
+            count: livresCherche.length,
+            limit: limit,
+            offset: offset,
+            total: totalBook
+        }
+
+        responseBody.results = livresCherche;
+
+        res.status(200).json(responseBody);
 
     } catch (err) {
-        next(new createError.InternalServerError(err.message));
+        errorMessage(res,"Une erreur interne au serveur est apparu!", "", 420, "Une belle erreur");
     }
 });
 
@@ -143,5 +160,15 @@ router.delete('/', (req, res, next) => {
 router.put('/', (req, res, next) => {
     next(new createError.MethodNotAllowed());
 });
+
+function errorMessage(res,devMsg,usrMsg,errorCode,info){
+    res.status(errorCode);
+    res.json({
+        "developerMessage" : devMsg,
+        "userMessage" : usrMsg,
+        "errorCode" : errorCode,
+        "moreInfo" : info
+    });
+}
 
 module.exports = router;
