@@ -107,10 +107,17 @@ router.patch("/:uuidLivre", async(req, res, next) => {
         // livreCherche.update({"_id":req.params.uuidLivre}, {$set: {"categorie":patchLivre.categorie}}, false, true)
         // livreCherche.update({"_id":req.params.uuidLivre}, {$set: {patchLivre}}, false, true)
         // livreCherche.update({}, {$set: {patchLivre}}, false, true)
+        let savedLivre = await Livre.findAndModify({"_id":req.params.uuidLivre},  patchLivre);
         
-        let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: {patchLivre}})
-      
+        // Une qui fonctionne
+        // let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: {categorie:patchLivre.categorie}})
+        console.log("SaveLivre : ");
         console.log(savedLivre);
+       // console.log(savedLivre.Livre);
+
+
+
+
         res.status(201).json(savedLivre);
 
     } catch (err) {
