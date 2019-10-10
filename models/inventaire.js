@@ -41,4 +41,20 @@ const inventaireSchema = new mongoose.Schema({
     }
 });
 
+inventaireSchema.methods.linkingBook = function(id, isShipmentObjectPresent = true) {
+    
+    const _id = this._id;
+    const bookHref = `${config.api.baseUrl}/livres/${id}`;
+    const linkedInv = this.toJSON();
+    linkedInv.href = `${bookHref}/inventaires/${_id}`;
+    if(isShipmentObjectPresent) {
+        linkedInv.shipment = {}
+        linkedInv.shipment.href = bookHref;
+    } else {
+        delete linkedInv.livre;
+    }
+
+    return linkedInv;
+}
+
 mongoose.model('Inventaire', inventaireSchema);

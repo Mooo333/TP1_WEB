@@ -16,16 +16,10 @@ router.get('/:id', async (req, res, next) => {
             fields = req.query.fields.replace(/,/g, ' ');
         }
 
-        let results = await Promise.all([
-            Succursale.find({_id: req.params.id}, fields)
-        ]);
+        let results = Succursale.find({_id: req.params.id}, fields);
 
-        if (req.query.expand === "inventaires") {
-            Inventaire.find({})
-        }
-        else {
-
-        }
+        if(req.query.expand === 'inventaires')
+            results.populate('inventaires');
 
         res.status(200).json(results[0]);
 

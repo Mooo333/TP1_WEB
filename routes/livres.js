@@ -2,10 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const moment = require('moment');
 const createError = require('http-errors');
-const bodyParser = require('body-parser');
 
 const router = express.Router();
 const Livre = mongoose.model('Livre');
+const Inventaire = mongoose.model('Inventaire');
 //const Inventaire = mongoose.model('Inventaire');
 
 // *** Route a Francis *** //

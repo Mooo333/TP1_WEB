@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const moment = require('moment');
 
 const router = express.Router();
-const Livre = mongoose.model('Inventaire');
+const Inventaire = mongoose.model('Inventaire');
 
 router.post('/', (req, res, next) =>{
     next(new createError.BadRequest("Route non créée"));

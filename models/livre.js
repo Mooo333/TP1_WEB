@@ -19,6 +19,32 @@ const livreSchema = new Schema({
 	}]
 },{
     collection: 'Livres',
+    toJSON: {
+        transform: function(doc, ret) {
+            ret.href = `${config.api.baseUrl}/livres/${doc._id}`;
+            if(!ret.inventaires){
+                ret.inventaires = {};
+                ret.inventaires.href = `${ret.href}/inventaires`;
+            }
+            else{
+                doc.inventaires.forEach((inv, i) => {
+					ret.inventaires[i] = inv.linkingBook(doc._id, false);
+				});
+            }
+
+            delete ret._id;
+			ret.version = doc.__v;
+            delete ret.__v;
+
+            if(ret.commentaires){
+                ret.commentaires.forEach(c => {
+                    delete c._id;
+                });
+            }
+            
+            return ret;
+        }
+    },
     virtuals: true,
 })
 
@@ -28,13 +54,5 @@ livreSchema.virtual('inventaires', {
 	foreignField: 'livre',
 	justOne: false
 });
-
-livreSchema.methods.link = function() {
-    
-    const _id = this._id;
-    const bookHref = `${config.api.baseUrl}/livres/${_id}`;
-
-    return bookHref;
-}
 
 mongoose.model('Livre', livreSchema);
