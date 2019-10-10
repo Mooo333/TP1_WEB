@@ -57,4 +57,20 @@ inventaireSchema.methods.linkingBook = function(id, isShipmentObjectPresent = tr
     return linkedInv;
 }
 
+inventaireSchema.methods.linkingSuccursale = function(id, isShipmentObjectPresent = true) {
+    
+    const _id = this._id;
+    const succursaleHref = `${config.api.baseUrl}/succursales/${id}`;
+    const linkedInv = this.toJSON();
+    linkedInv.href = `${succursaleHref}/inventaires/${_id}`;
+    if(isShipmentObjectPresent) {
+        linkedInv.shipment = {}
+        linkedInv.shipment.href = succursaleHref;
+    } else {
+        delete linkedInv.livre;
+    }
+
+    return linkedInv;
+}
+
 mongoose.model('Inventaire', inventaireSchema);

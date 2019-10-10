@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('config');
 const Schema = mongoose.Schema;
+const Inventaire = mongoose.model('Inventaire');
 
 const livreSchema = new Schema({
 
@@ -23,10 +24,12 @@ const livreSchema = new Schema({
         transform: function(doc, ret) {
             ret.href = `${config.api.baseUrl}/livres/${doc._id}`;
             if(!ret.inventaires){
-                ret.inventaires = {};
-                ret.inventaires.href = `${ret.href}/inventaires`;
+                let inv = Inventaire.findOne({_id:"5d9f636d21c268248078f427"});
+                ret.inventaires = inv;
+
+                ret.inventaires = ret.inventaires.linkingBook(doc._id,false);
             }
-            else{
+            else {
                 doc.inventaires.forEach((inv, i) => {
 					ret.inventaires[i] = inv.linkingBook(doc._id, false);
 				});

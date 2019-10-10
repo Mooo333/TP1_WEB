@@ -5,7 +5,6 @@ const createError = require('http-errors');
 
 const router = express.Router();
 const Livre = mongoose.model('Livre');
-const Inventaire = mongoose.model('Inventaire');
 //const Inventaire = mongoose.model('Inventaire');
 
 // *** Route a Francis *** //
@@ -14,7 +13,6 @@ const Inventaire = mongoose.model('Inventaire');
 router.post("/", async(req, res, next) => {
 
     const newLivre = new Livre(req.body);
-    const bookHref = newLivre.link();
 
     if(newLivre){
         try {
@@ -22,7 +20,7 @@ router.post("/", async(req, res, next) => {
             res.status(201);
 
             saveLivre = saveLivre.toJSON();
-            res.header('Location', bookHref);
+            res.header('Location', saveLivre.href);
             res.json(saveLivre);
 
         } catch (err) {
@@ -107,7 +105,7 @@ router.patch("/:uuidLivre", async(req, res, next) => {
         // livreCherche.update({"_id":req.params.uuidLivre}, {$set: {"categorie":patchLivre.categorie}}, false, true)
         // livreCherche.update({"_id":req.params.uuidLivre}, {$set: {patchLivre}}, false, true)
         // livreCherche.update({}, {$set: {patchLivre}}, false, true)
-        let savedLivre = await Livre.findAndModify({"_id":req.params.uuidLivre},  patchLivre);
+        let savedLivre = await Livre.findAndModify({_id:req.params.uuidLivre},  patchLivre);
         
         // Une qui fonctionne
         // let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: {categorie:patchLivre.categorie}})

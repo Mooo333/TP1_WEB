@@ -14,7 +14,27 @@ const succursaleSchema = new Schema({
     telecopieur: String,
     information: String,
 },{
-    collection: 'Succursales',
+    collection: 'Succursales', 
+    toJSON: {
+        transform: function(doc, ret) {
+        ret.href = `${config.api.baseUrl}/succursales/${doc._id}`;
+        if(!ret.inventaires){
+            ret.inventaires = {};
+            ret.inventaires.href = `${ret.href}/inventaires`;
+        }
+        else{
+            doc.inventaires.forEach((inv, i) => {
+                ret.inventaires[i] = inv.linkingSuccursale(doc._id, false);
+            });
+        }
+
+        delete ret._id;
+        ret.version = doc.__v;
+        delete ret.__v;
+        
+        return ret;
+        }
+    },
     virtuals: true,
 })
 
