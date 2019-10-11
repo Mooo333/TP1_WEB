@@ -85,18 +85,32 @@ router.get("/", async(req, res, next) => {
     }
 });
 
-router.post("/livres/{uuidLivre}", async(req, res, next) => {
-
+router.post("/:uuidLivre", async (req, res, next) => {
+    // route VL
+    //_body : Permets de retourner ou non la représentation de l’objet ajouté dans la réponse
+    //Corps de requête | La représentation JSON de la succursale à ajouter
+    //Type de réponse  | Objet ou Aucun contenu
+    //• Code http de création avec succès
+    //• La représentation JSON de la succursale ajoutée
+    //• HEADER location contentant l’URL de la succursale ajoutée
+    try { }
+    catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
 });
 
-router.get("/{uuidLivre}/inventaire", async(req, res, next) => {
-    
+router.get("/:uuidLivre/inventaire", async (req, res, next) => {
+    // route VL
+    try { }
+    catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
 });
 
 // ******************************* Routes de Maude *******************************
 // URL:        /categories
 // Réponse:    Collection sans meta-data
-router.get("/categories", async(req, res, next) => {
+router.get("/categories", async (req, res, next) => {
     // Sélection de toutes les catégories
 
     res.status(200);
@@ -136,16 +150,11 @@ router.patch("/:uuidLivre", async(req, res, next) => {
         let livreCherche = await Livre.findOne({_id: req.params.uuidLivre}); // Trouver le bon livre à corriger
         const patchLivre = req.body;
         console.log(patchLivre);
-        // livreCherche.update({_id:req.params.uuidLivre}, {$set: {categorie:patchLivre.categorie}})
-        // livreCherche.update({}, {$set: {"categorie":patchLivre.categorie}}, false, true)
-        // livreCherche.update({"_id":req.params.uuidLivre}, {$set: {"categorie":patchLivre.categorie}}, false, true)
-        // livreCherche.update({"_id":req.params.uuidLivre}, {$set: {patchLivre}}, false, true)
-        // livreCherche.update({}, {$set: {patchLivre}}, false, true)
-        //let savedLivre = await Livre.findAndModify({_id:req.params.uuidLivre},  patchLivre);
-        let savedLivre = livreCherche.updateOne({_id:req.params.uuidLivre}, {$set: patchLivre})
         
-        // Une qui fonctionne
-        // let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: {categorie:patchLivre.categorie}})
+        let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: patchLivre});
+
+        // Une qui "fonctionne"
+        //let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: {categorie:patchLivre.categorie}})
         console.log("SaveLivre : ");
         console.log(savedLivre);
        // console.log(savedLivre.Livre);
