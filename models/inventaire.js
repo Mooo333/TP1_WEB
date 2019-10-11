@@ -17,6 +17,9 @@ const inventaireSchema = new mongoose.Schema({
         ref: 'Succursale'
     }
 },{
+    collection: 'Inventaires',
+    //virtuals: true,
+},{
     collection: 'livres',
     toJSON: {
         transform: function(doc, ret) {
@@ -37,5 +40,37 @@ const inventaireSchema = new mongoose.Schema({
         }
     }
 });
+
+inventaireSchema.methods.linkingBook = function(id, isShipmentObjectPresent = true) {
+    
+    const _id = this._id;
+    const bookHref = `${config.api.baseUrl}/livres/${id}`;
+    const linkedInv = this.toJSON();
+    linkedInv.href = `${bookHref}/inventaires/${_id}`;
+    if(isShipmentObjectPresent) {
+        linkedInv.shipment = {}
+        linkedInv.shipment.href = bookHref;
+    } else {
+        delete linkedInv.livre;
+    }
+
+    return linkedInv;
+}
+
+inventaireSchema.methods.linkingSuccursale = function(id, isShipmentObjectPresent = true) {
+    
+    const _id = this._id;
+    const succursaleHref = `${config.api.baseUrl}/succursales/${id}`;
+    const linkedInv = this.toJSON();
+    linkedInv.href = `${succursaleHref}/inventaires/${_id}`;
+    if(isShipmentObjectPresent) {
+        linkedInv.shipment = {}
+        linkedInv.shipment.href = succursaleHref;
+    } else {
+        delete linkedInv.livre;
+    }
+
+    return linkedInv;
+}
 
 mongoose.model('Inventaire', inventaireSchema);

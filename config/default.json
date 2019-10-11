@@ -7,6 +7,6 @@
         "port":4500
     },
     "dbConfig": {
-        "url":"mongodb+srv://Mo:Mo@web-ftszn.mongodb.net/Librairie?retryWrites=true&w=majority"
+        "url":"mongodb+srv://LibrairieUser:Librairie333@web-ftszn.mongodb.net/Librairie"
     }
 }
