@@ -24,7 +24,7 @@ const livreSchema = new Schema({
         transform: function(doc, ret) {
             ret.href = `${config.api.baseUrl}/livres/${doc._id}`;
             ret.inventaires = doc.inventaires;
-            if(!ret.inventaires){
+            if(ret.inventaires.length == 0){
                 ret.inventaires = {};
                 ret.inventaires.href = `${ret.href}/inventaires`;
             }

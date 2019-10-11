@@ -10,10 +10,20 @@ const Livre = mongoose.model('Livre');
 // Corp de req : le livre
 // To return : le livre ajouter (ou rien si po de livre add)
 router.post("/", async(req, res, next) => {
-
+    const dateNow = moment();
     const newLivre = new Livre(req.body);
+    const basicComment = {
+        dateCommentaire: dateNow
+    };
 
     if(newLivre){
+        if(newLivre.commentaires.length == 0) 
+            newLivre.commentaires.push(basicComment);
+        else
+            for(i = 0; i < newLivre.commentaires.length;i++){
+                newLivre.commentaires[i].dateCommentaire = dateNow;
+            }
+
         try {
             let saveLivre = await newLivre.save();
             res.status(201);
@@ -36,8 +46,17 @@ router.get("/", async(req, res, next) => {
     try {
         let limit = 5;
         let offset = 0;
-
         let livreQuery;
+
+        if (req.query.limit && req.query.offset) {
+            limit = parseInt(req.query.limit, 10);
+            offset = parseInt(req.query.offset, 10);
+    
+            if (isNaN(limit) || isNaN(offset)) {
+                next(new createError.BadRequest('Invalid format for limit or offset'));
+            }
+        }
+
         if(req.query.categorie) 
             livreQuery = Livre.find({categorie: req.query.categorie}).limit(limit).skip(offset);
         else
@@ -62,7 +81,7 @@ router.get("/", async(req, res, next) => {
         res.status(200).json(responseBody);
 
     } catch (err) {
-        next(createError.InternalServerError("Oof"));
+        next(new createError.InternalServerError(err.message)); 
     }
 });
 
