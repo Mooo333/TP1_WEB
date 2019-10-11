@@ -13,11 +13,11 @@ router.get('/:id', async (req, res, next) => {
         if (req.query.fields) {
             fields = req.query.fields.replace(/,/g, ' ');
         }
+        
+        let query = Succursale.findOne({_id: req.params.id}, fields);
 
-        let query = Succursale.find({_id: req.params.id}, fields);
-
-        if(req.query.expand === 'inventaires')
-            query.populate('inventaires');
+        if(req.query.expand === 'inventaires') query.populate('inventaires');
+        else query.populate('inventaires','href');
 
         let results = await query;
 

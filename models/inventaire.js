@@ -41,34 +41,38 @@ const inventaireSchema = new mongoose.Schema({
     }
 });
 
-inventaireSchema.methods.linkingBook = function(id, isShipmentObjectPresent = true) {
+inventaireSchema.methods.linkingBook = function(id, isBookObjectPresent = true) {
     
     const _id = this._id;
     const bookHref = `${config.api.baseUrl}/livres/${id}`;
     const linkedInv = this.toJSON();
     linkedInv.href = `${bookHref}/inventaires/${_id}`;
-    if(isShipmentObjectPresent) {
+    if(isBookObjectPresent) {
         linkedInv.shipment = {}
         linkedInv.shipment.href = bookHref;
     } else {
         delete linkedInv.livre;
     }
+    delete linkedInv._id;
+    delete linkedInv.__v;
 
     return linkedInv;
 }
 
-inventaireSchema.methods.linkingSuccursale = function(id, isShipmentObjectPresent = true) {
+inventaireSchema.methods.linkingSuccursale = function(id, isSuccursaleObjectPresent = true) {
     
     const _id = this._id;
     const succursaleHref = `${config.api.baseUrl}/succursales/${id}`;
     const linkedInv = this.toJSON();
     linkedInv.href = `${succursaleHref}/inventaires/${_id}`;
-    if(isShipmentObjectPresent) {
-        linkedInv.shipment = {}
-        linkedInv.shipment.href = succursaleHref;
+    if(isSuccursaleObjectPresent) {
+        linkedInv.succursale = {}
+        linkedInv.succursale.href = succursaleHref;
     } else {
-        delete linkedInv.livre;
+        delete linkedInv.succursale;
     }
+    delete linkedInv._id;
+    delete linkedInv.__v;
 
     return linkedInv;
 }
