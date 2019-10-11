@@ -145,27 +145,30 @@ router.get("/:uuidLivre", async(req, res, next) => {
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
 // Réponse:    Objet
 router.patch("/:uuidLivre", async(req, res, next) => {
-    // Mise à jour partielle d'un livre
+   
     try {
-        let livreCherche = await Livre.findOne({_id: req.params.uuidLivre}); // Trouver le bon livre à corriger
-        const patchLivre = req.body;
-        console.log(patchLivre);
-        
+    // Mise à jour partielle d'un livre
+    let livreCherche = await Livre.findOne({_id: req.params.uuidLivre});    // Trouver le bon livre à corriger
+
+    // S'il existe
+    if (!livreCherche)
+    {
+        next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+    }   
+    else
+    {
+        const patchLivre = req.body;                                            // Mettre le contenu du body dans une constante
+        // Trouve les documents reliés à l'ID (uuidLivre) donné,
+        // puis change les attributs envoyés dans la requête
         let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: patchLivre});
 
-        // Une qui "fonctionne"
-        //let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: {categorie:patchLivre.categorie}})
-        console.log("SaveLivre : ");
-        console.log(savedLivre);
-       // console.log(savedLivre.Livre);
-
-
-
-
-        res.status(201).json(savedLivre);
-
+        // Retrouver le document modifié 
+        livreCherche = await Livre.findOne({_id: req.params.uuidLivre});
+        // Renvoyer en réponse le document modifié
+        res.status(201).json(livreCherche);
+    }
     } catch (err) {
-        next(new createError.BadRequest("N'a pas passé"))
+        next(new createError.BadRequest(err));
     }
 
 

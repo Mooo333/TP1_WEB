@@ -21,6 +21,8 @@ router.get('/:id', async (req, res, next) => {
 
         let results = await query;
 
+        if(!results) next(new createError.NotAcceptable(err.message));
+
         res.status(200).json(results);
 
     } catch (err) {
