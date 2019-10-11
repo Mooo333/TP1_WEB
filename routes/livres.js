@@ -145,34 +145,32 @@ router.get("/:uuidLivre", async(req, res, next) => {
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
 // Réponse:    Objet
 router.patch("/:uuidLivre", async(req, res, next) => {
-   
+    
     try {
-    // Mise à jour partielle d'un livre
-    let livreCherche = await Livre.findOne({_id: req.params.uuidLivre});    // Trouver le bon livre à corriger
+        // Mise à jour partielle d'un livre
+        let livreCherche = await Livre.findOne({_id: req.params.uuidLivre});    // Trouver le bon livre à corriger
+    
+        // S'il existe
+        if (livreCherche)
+        {
+                const patchLivre = req.body;                                            // Mettre le contenu du body dans une constante
+                // Trouve les documents reliés à l'ID (uuidLivre) donné,
+                // puis change les attributs envoyés dans la requête
+                let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: patchLivre});
 
-    // S'il existe
-    if (!livreCherche)
-    {
-        next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
-    }   
-    else
-    {
-        const patchLivre = req.body;                                            // Mettre le contenu du body dans une constante
-        // Trouve les documents reliés à l'ID (uuidLivre) donné,
-        // puis change les attributs envoyés dans la requête
-        let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: patchLivre});
-
-        // Retrouver le document modifié 
-        livreCherche = await Livre.findOne({_id: req.params.uuidLivre});
-        // Renvoyer en réponse le document modifié
-        res.status(201).json(livreCherche);
-    }
+                // Retrouver le document modifié 
+                livreCherche = await Livre.findOne({_id: req.params.uuidLivre});
+                // Renvoyer en réponse le document modifié
+                res.status(201).json(livreCherche);
+        }   
+        else
+        {
+            next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+        }
     } catch (err) {
-        
+
         next(new createError.BadRequest(err));
     }
-
-
 });
 // URL:        /livres/{uuidLivre}/commentaires
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
