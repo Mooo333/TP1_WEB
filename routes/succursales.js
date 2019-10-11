@@ -32,7 +32,15 @@ router.get('/:id', async (req, res, next) => {
 
 router.post("/", async(req, res, next) => {
     // route VL
-    try { }
+    const neoSuccursale = new Succursale(req.body);
+    try { 
+
+
+        const savedSuccursale = await neoSuccursale.save();
+        res.status(201);
+        res.json(savedSuccursale);
+
+    }
     catch (err) {
         next(new createError.InternalServerError(err.message));
     }

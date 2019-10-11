@@ -19,19 +19,21 @@ const succursaleSchema = new Schema({
         transform: function(doc, ret) {
         ret.href = `${config.api.baseUrl}/succursales/${doc._id}`;
         ret.inventaires = doc.inventaires;
-        if(ret.inventaires.length == 0){
-            ret.inventaires = {};
-            ret.inventaires.href = `${ret.href}/inventaires`;
-        }
-        else{
-            doc.inventaires.forEach((inv, i) => {
-                ret.inventaires[i] = inv.linkingSuccursale(doc._id,false);
-            });
-        }
+        if(ret.inventaires){
+            if(ret.inventaires.length == 0){
+                ret.inventaires = {};
+                ret.inventaires.href = `${ret.href}/inventaires`;
+            }
+            else{
+                doc.inventaires.forEach((inv, i) => {
+                    ret.inventaires[i] = inv.linkingSuccursale(doc._id,false);
+                });
+            }
 
-        delete ret._id;
-        ret.version = doc.__v;
-        delete ret.__v;
+            delete ret._id;
+            ret.version = doc.__v;
+            delete ret.__v;
+            }
         
         return ret;
         }
