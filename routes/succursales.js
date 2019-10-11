@@ -48,14 +48,4 @@ router.put('/', (req, res, next) => {
     next(new createError.MethodNotAllowed());
 });
 
-function errorMessage(res,devMsg,usrMsg,errorCode,info){
-    res.status(errorCode);
-    res.json({
-        "developerMessage" : devMsg,
-        "userMessage" : usrMsg,
-        "errorCode" : errorCode,
-        "moreInfo" : info
-    });
-}
-
 module.exports = router;

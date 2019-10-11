@@ -62,7 +62,7 @@ router.get("/", async(req, res, next) => {
         res.status(200).json(responseBody);
 
     } catch (err) {
-        errorMessage(res,"Une erreur interne au serveur est apparu!", "", 420, "Une belle erreur");
+        next(createError.InternalServerError("Oof"));
     }
 });
 

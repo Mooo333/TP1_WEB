@@ -24,7 +24,7 @@ app.use('/livres', routes.livres);
 app.use('/succursales', routes.succursales);
 app.use('/inventaires', routes.inventaires);
 
-//lib.errors(app);
+lib.errors(app);
 
 const PORT = config.api.port || 4500;
 app.listen(PORT, () => console.log(chalk.rgb(127,255,0)('Mon serveur est en fonction')));
