@@ -168,6 +168,7 @@ router.patch("/:uuidLivre", async(req, res, next) => {
         res.status(201).json(livreCherche);
     }
     } catch (err) {
+        
         next(new createError.BadRequest(err));
     }
 
