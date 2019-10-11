@@ -131,16 +131,11 @@ router.patch("/:uuidLivre", async(req, res, next) => {
         let livreCherche = await Livre.findOne({_id: req.params.uuidLivre}); // Trouver le bon livre à corriger
         const patchLivre = req.body;
         console.log(patchLivre);
-        // livreCherche.update({_id:req.params.uuidLivre}, {$set: {categorie:patchLivre.categorie}})
-        // livreCherche.update({}, {$set: {"categorie":patchLivre.categorie}}, false, true)
-        // livreCherche.update({"_id":req.params.uuidLivre}, {$set: {"categorie":patchLivre.categorie}}, false, true)
-        // livreCherche.update({"_id":req.params.uuidLivre}, {$set: {patchLivre}}, false, true)
-        // livreCherche.update({}, {$set: {patchLivre}}, false, true)
-        //let savedLivre = await Livre.findAndModify({_id:req.params.uuidLivre},  patchLivre);
-        let savedLivre = livreCherche.updateOne({_id:req.params.uuidLivre}, {$set: patchLivre})
         
-        // Une qui fonctionne
-        // let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: {categorie:patchLivre.categorie}})
+        let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: patchLivre});
+
+        // Une qui "fonctionne"
+        //let savedLivre = await Livre.updateMany({_id:req.params.uuidLivre}, {$set: {categorie:patchLivre.categorie}})
         console.log("SaveLivre : ");
         console.log(savedLivre);
        // console.log(savedLivre.Livre);
