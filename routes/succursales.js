@@ -45,9 +45,27 @@ router.post("/", async(req, res, next) => {
         next(new createError.InternalServerError(err.message));
     }
 });
-router.post("/:uuidSucursale", async(req, res, next) => {
+router.put("/:uuidSucursale", async(req, res, next) => {
     // route VL
-    try { }
+    const SuccursaleTrouvee = await Succursale.findOne({_id: req.params.uuidSuccursale}); 
+    
+    try {
+        if(SuccursaleTrouvee)
+        {
+            const UpdSuccursale = new Succursale(req.body);
+            Succursale.deleteOne(SuccursaleTrouvee);
+            UpdSuccursale.save();
+
+
+
+        }
+        else{
+            throw new console.error(message, "cannot find Succursale");
+            
+        }
+
+    }
+    
     catch (err) {
         next(new createError.InternalServerError(err.message));
     }
@@ -62,8 +80,6 @@ router.patch('/', (req, res, next) => {
     next(new createError.MethodNotAllowed());
 });
 
-router.put('/', (req, res, next) => {
-    next(new createError.MethodNotAllowed());
-});
+
 
 module.exports = router;
