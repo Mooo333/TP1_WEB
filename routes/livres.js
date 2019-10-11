@@ -148,11 +148,13 @@ router.patch("/:uuidLivre", async(req, res, next) => {
     
     try {
         // Mise à jour partielle d'un livre
-        let livreCherche = await Livre.findOne({_id: req.params.uuidLivre});    // Trouver le bon livre à corriger
+        let livreRequete = Livre.findOne({_id: req.params.uuidLivre});    // Trouver le bon livre à corriger
     
-        // S'il existe
-        if (livreCherche)
-        {
+        try {
+            let livreCherche = await livreRequete;
+
+            if(livreCherche)
+            {
                 const patchLivre = req.body;                                            // Mettre le contenu du body dans une constante
                 // Trouve les documents reliés à l'ID (uuidLivre) donné,
                 // puis change les attributs envoyés dans la requête
@@ -160,13 +162,19 @@ router.patch("/:uuidLivre", async(req, res, next) => {
 
                 // Retrouver le document modifié 
                 livreCherche = await Livre.findOne({_id: req.params.uuidLivre});
-                // Renvoyer en réponse le document modifié
-                res.status(201).json(livreCherche);
-        }   
-        else
-        {
+
+                if(req.query._body=="false")
+                    res.status(200).json();            // Ne pas renvoyer d'objet
+                else
+                    res.status(200).json(livreCherche);// Renvoyer en réponse l'objet modifié
+            }
+            else{
+                next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+            }
+        } catch (err) {
             next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
         }
+
     } catch (err) {
 
         next(new createError.BadRequest(err));
