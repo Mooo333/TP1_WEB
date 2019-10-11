@@ -7,18 +7,32 @@ const router = express.Router();
 const Livre = mongoose.model('Livre');
 //const Inventaire = mongoose.model('Inventaire');
 
-router.post("/livres/{uuidLivre}", async(req, res, next) => {
-
+router.post("/:uuidLivre", async (req, res, next) => {
+    // route VL
+    //_body : Permets de retourner ou non la représentation de l’objet ajouté dans la réponse
+    //Corps de requête | La représentation JSON de la succursale à ajouter
+    //Type de réponse  | Objet ou Aucun contenu
+    //• Code http de création avec succès
+    //• La représentation JSON de la succursale ajoutée
+    //• HEADER location contentant l’URL de la succursale ajoutée
+    try { }
+    catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
 });
 
-router.get("/{uuidLivre}/inventaire", async(req, res, next) => {
-    
+router.get("/:uuidLivre/inventaire", async (req, res, next) => {
+    // route VL
+    try { }
+    catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
 });
 
 // ******* Routes de Maude *******
 // URL:        /categories
 // Réponse:    Collection sans meta-data
-router.get("/categories", async(req, res, next) => {
+router.get("/categories", async (req, res, next) => {
     // Sélection de toutes les catégories
 
     res.status(200);
@@ -27,22 +41,22 @@ router.get("/categories", async(req, res, next) => {
 // URL:        /livres/{uuidLivre}
 // Parametres: expand (collection d'inventaire) & fields (select. attrib. spécif.)
 // Réponse:    Objet
-router.get("/livres/:_id", async(req, res, next) => {
+router.get("/livres/:_id", async (req, res, next) => {
     // Sélection d'un livre
     try {
         // Trouver le livre à l'aide du _id
         let livreCherche = await Livre.find({ _id: req.params._id });
-    
-        if(req.query.expand === 'livres') {
+
+        if (req.query.expand === 'livres') {
             livreCherche.populate('livres');
         }
 
         let livres = await livreCherche;
-/*
-        if (livres.length === 0) {
-            next(new createError.NotFound());
-        }
-*/
+        /*
+                if (livres.length === 0) {
+                    next(new createError.NotFound());
+                }
+        */
         res.status(200).json(livres[0]);
 
     } catch (err) {
@@ -53,14 +67,14 @@ router.get("/livres/:_id", async(req, res, next) => {
 // URL:        /livres/{uuidLivre}
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
 // Réponse:    Objet
-router.patch("/livres/{uuidLivre}", async(req, res, next) => {
+router.patch("/livres/{uuidLivre}", async (req, res, next) => {
     // Mise à jour partielle d'un livre
 });
 // URL:        /livres/{uuidLivre}/commentaires
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
 // Réponse:    Objet
 // Ajouter un header
-router.post("/livres/{uuidLivre}/commentaires", async(req, res, next) => {
+router.post("/livres/{uuidLivre}/commentaires", async (req, res, next) => {
     // Ajouter un commentaire à propos d'un livre
 
 });

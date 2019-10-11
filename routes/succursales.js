@@ -54,10 +54,18 @@ router.get('/:uuidSuccursale', async (req, res, next) => {
 });
 
 router.post("/", async(req, res, next) => {
-
+    // route VL
+    try { }
+    catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
 });
 router.post("/:uuidSucursale", async(req, res, next) => {
-    
+    // route VL
+    try { }
+    catch (err) {
+        next(new createError.InternalServerError(err.message));
+    }
 });
 
 
