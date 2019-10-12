@@ -37,31 +37,57 @@ router.post("/", async(req, res, next) => {
 
 
         const savedSuccursale = await neoSuccursale.save();
-        res.status(201);
-        res.json(savedSuccursale);
+
+        if(req.query._body == "false")
+        {
+                    res.status(201).json();
+        }         
+        else
+        {
+            res.status(201).json(savedSuccursale);
+            
+        }
 
     }
     catch (err) {
         next(new createError.InternalServerError(err.message));
     }
 });
-router.put("/:uuidSucursale", async(req, res, next) => {
+router.put("/:uuidSuccursale", async(req, res, next) => {
     // route VL
-    const SuccursaleTrouvee = await Succursale.findOne({_id: req.params.uuidSuccursale}); 
+    let SuccursaleTrouvee = await Succursale.findOne({_id: req.params.uuidSuccursale}); 
     
     try {
-        if(SuccursaleTrouvee)
+        let SuccursaleBefore = await SuccursaleTrouvee;
+        console.log(SuccursaleBefore);
+        if(SuccursaleBefore)
         {
             const UpdSuccursale = new Succursale(req.body);
-            Succursale.deleteOne(SuccursaleTrouvee);
-            UpdSuccursale.save();
+            if (!UpdSuccursale.appelatif || !UpdSuccursale.addresse|| !UpdSuccursale.ville|| !UpdSuccursale.codePostal|| !UpdSuccursale.province|| !UpdSuccursale.telephone|| !UpdSuccursale.telecopieur|| !UpdSuccursale.information)
+                res.status(417).json("manque un ou plusieurs arguments");
+            else
+                UpdSuccursale.save();
+            
+            if (Succursale.findOne({_id: UpdSuccursale.id}))
+                await Succursale.deleteOne(SuccursaleTrouvee);
+            else
+                res.status(400).json("imposible de mettre la modification en BD"); //très rare voir impossible (prévention)
 
 
+            if(req.query._body == "false")
+            {
+                        res.status(201).json("Sans infos");
+            }         
+            else
+            {
+                res.status(201).json(UpdSuccursale);
+                
+            }
 
         }
         else{
-            throw new console.error(message, "cannot find Succursale");
-            
+            res.status(404).json("la succursale du uuid n'à pas été trouvée");
+            //throw new InternalServerError("Cannot find la Succursale");            
         }
 
     }
