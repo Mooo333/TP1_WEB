@@ -35,17 +35,19 @@ const livreSchema = new Schema({
                     });
                 }
 
-                delete ret._id;
-                ret.version = doc.__v;
-                delete ret.__v;
-
                 if(ret.commentaires){
                     ret.commentaires.forEach(c => {
                         delete c._id;
                     });
                 }
             }
+            else
+                delete ret.href;
             
+            delete ret._id;
+            ret.version = doc.__v;
+            delete ret.__v;
+
             return ret;
         }
     },

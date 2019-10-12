@@ -134,9 +134,27 @@ router.get("/:uuidLivre/inventaire", async (req, res, next) => {
 // Réponse:    Collection sans meta-data
 router.get("/categories", async (req, res, next) => {
     // Sélection de toutes les catégories
+    try {
+      
+        let tousLivres = Livre.find({}, "categorie");    // Trouver tous les livres / tester s'il y en a 
+    
+        try {
+            let toutesCategories = await tousLivres;
 
-    res.status(200);
-    res.end('La route categories');
+            if(toutesCategories)
+            {
+                res.status(200).json(toutesCategories);// Renvoyer en réponse l'objet modifié
+            }
+            else{
+                next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+            }
+        } catch (err) {
+            next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+        }
+    } catch (err) {
+
+        next(new createError.BadRequest(err));
+    }
 });
 // URL:        /livres/{uuidLivre}
 // Parametres: expand (collection d'inventaire) & fields (select. attrib. spécif.)
@@ -145,20 +163,18 @@ router.get("/:uuidLivre", async(req, res, next) => {
     // Sélection d'un livre
     try {
         // Trouver le livre à l'aide du _id
-        let livreCherche = await Livre.findOne({_id: req.params.uuidLivre});
-    
+        let livreCherche = Livre.find({_id: req.params.uuidLivre});
         if(req.query.expand === 'inventaires') {
             livreCherche.populate('inventaires');
+           
         }
+        let livresRequete = await livreCherche;
 
-        if (livreCherche.length === 0) {
+        if (livresRequete.length === 0) {
             next(new createError.NotFound());
         }
-
-        res.status(200).json(livreCherche);
-
+        res.status(200).json(livresRequete);
     } catch (err) {
-
         next(new createError.InternalServerError(err.message)); 
     }
 
@@ -196,7 +212,6 @@ router.patch("/:uuidLivre", async(req, res, next) => {
         } catch (err) {
             next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
         }
-
     } catch (err) {
 
         next(new createError.BadRequest(err));
@@ -208,7 +223,32 @@ router.patch("/:uuidLivre", async(req, res, next) => {
 // Ajouter un header
 router.post("/livres/:uuidLivre/commentaires", async(req, res, next) => {
     // Ajouter un commentaire à propos d'un livre
+    try {
 
+        let livreRequete = Livre.findOne({_id: req.params.uuidLivre});    // Trouver le bon livre pour ajouter le commentaire
+    
+        try {
+            let livreCherche = await livreRequete;
+
+            if(livreCherche)
+            {
+                // Savoir s'il y a un commentaire
+                if(livreCherche.commentaires)
+                {
+                    
+                }
+                livreCherche.commentaires.push(req.body)
+            }
+            else{
+                next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+            }
+        } catch (err) {
+            next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+        }
+    } catch (err) {
+
+        next(new createError.BadRequest(err));
+    }
 });
 
 
