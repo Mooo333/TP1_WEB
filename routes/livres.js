@@ -108,13 +108,17 @@ router.delete("/:uuidLivre", async (req, res, next) => {
 
 router.get("/:uuidLivre/inventaire", async (req, res, next) => {
     // route VL
-    let livreTrouvee = await Livre.findOne({_id: req.params.uuidLivre});
+    let livreTrouvee =  Livre.findOne({_id: req.params.uuidLivre});
     try { 
 
         if(livreTrouvee)
         {
-            console.log(livreTrouvee);
-            res.status(302).json(livreTrouvee.inventaires);
+            
+            livreTrouvee.populate('inventaires');
+           
+        
+            let livresRequete = await livreTrouvee;
+            res.status(302).json(livresRequete.inventaires);
 
         }
         else

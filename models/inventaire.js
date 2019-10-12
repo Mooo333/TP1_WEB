@@ -18,6 +18,16 @@ const inventaireSchema = new mongoose.Schema({
     }
 },{
     collection: 'Inventaires',
+    toJSON: {
+        transform: function(doc, ret) {
+
+            delete ret._id;
+            delete ret.__v;
+            delete ret.livre;
+            delete ret.succursale;
+            return ret;
+        }
+    },
     //virtuals: true,
 },{
     collection: 'livres',
@@ -26,6 +36,8 @@ const inventaireSchema = new mongoose.Schema({
 
             delete ret._id;
             delete ret.__v;
+            delete ret.livre;
+            delete ret.succursale;
             return ret;
         }
     },
@@ -36,6 +48,8 @@ const inventaireSchema = new mongoose.Schema({
 
             delete ret._id;
             delete ret.__v;
+            delete ret.livre;
+            delete ret.succursale;
             return ret;
         }
     }
