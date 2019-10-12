@@ -85,15 +85,22 @@ router.get("/", async(req, res, next) => {
     }
 });
 
-router.post("/:uuidLivre", async (req, res, next) => {
-    // route VL
-    //_body : Permets de retourner ou non la représentation de l’objet ajouté dans la réponse
-    //Corps de requête | La représentation JSON de la succursale à ajouter
-    //Type de réponse  | Objet ou Aucun contenu
-    //• Code http de création avec succès
-    //• La représentation JSON de la succursale ajoutée
-    //• HEADER location contentant l’URL de la succursale ajoutée
-    try { }
+router.delete("/:uuidLivre", async (req, res, next) => {
+   let LivreASup = await Livre.findOne({_id: req.params.uuidLivre});
+   
+    try { 
+        if(LivreASup)
+        {
+            Livre.deleteOne({_id: LivreASup.id});
+            res.status(204).json("le livre est parti en fumé");
+        }
+        else
+        {
+            res.status(404).json("Le livre que vous tenter de supprimer n'à pas été trouvé!");
+        }
+
+
+    }
     catch (err) {
         next(new createError.InternalServerError(err.message));
     }
@@ -232,9 +239,7 @@ router.post("/livres/:uuidLivre/commentaires", async(req, res, next) => {
 
 // *****************************************************************************************
 
-router.delete('/', (req, res, next) => {
-    next(new createError.MethodNotAllowed());
-});
+
 
 router.put('/', (req, res, next) => {
     next(new createError.MethodNotAllowed());
