@@ -1,0 +1,859 @@
+{
+	"info": {
+		"_postman_id": "f595e339-7812-470e-b868-78a891f7d713",
+		"name": "YannickBray",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Maude",
+			"item": [
+				{
+					"name": "Sélection de toutes les catégories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:4500/livres/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"livres",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sélection d'un livre (expand test)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:4500/livres/5d9f611af5feb31a18d30414?expand=inventaires",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"livres",
+								"5d9f611af5feb31a18d30414"
+							],
+							"query": [
+								{
+									"key": "expand",
+									"value": "inventaires"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sélection d'un livre (fields test)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:4500/livres/5d9f611af5feb31a18d30414?fields=categories,titre",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"livres",
+								"5d9f611af5feb31a18d30414"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "categories,titre"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mise a jour partielle d'un livre (body false)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"categorie\": \"FantaisiiiiiiiiiiiieTEST\",\n\t\"titre\": \"RUMBA\"\n}"
+						},
+						"url": {
+							"raw": "localhost:4500/livres/5d9f611af5feb31a18d30414?_body=false",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"livres",
+								"5d9f611af5feb31a18d30414"
+							],
+							"query": [
+								{
+									"key": "_body",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mise a jour partielle d'un livre (body autre)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"categorie\": \"Fantaisiiiiiiiiiiiie\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4500/livres/5d9f611af5feb31a18d30414?_body=true",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"livres",
+								"5d9f611af5feb31a18d30414"
+							],
+							"query": [
+								{
+									"key": "_body",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ajouter commentaire à livre (body false)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"message\":\"UN GROS TEST\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4500/livres/5d9f611af5feb31a18d30414/commentaires?_body=false",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"livres",
+								"5d9f611af5feb31a18d30414",
+								"commentaires"
+							],
+							"query": [
+								{
+									"key": "_body",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ajouter commentaire à livre (body true)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"message\":\"UN GROS TEST\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4500/livres/5d9f611af5feb31a18d30414/commentaires?_body=true",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"livres",
+								"5d9f611af5feb31a18d30414",
+								"commentaires"
+							],
+							"query": [
+								{
+									"key": "_body",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Francis",
+			"item": [
+				{
+					"name": "Succursale Request",
+					"item": [
+						{
+							"name": "GET succursales/:id - Sans fields & Sans expand",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4500/succursales/5d9d484407ed6b3a2c8be8e0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"succursales",
+										"5d9d484407ed6b3a2c8be8e0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET succursales/:id - Sans fields & expand",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4500/succursales/5d9d484407ed6b3a2c8be8e0?expand=inventaires",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"succursales",
+										"5d9d484407ed6b3a2c8be8e0"
+									],
+									"query": [
+										{
+											"key": "expand",
+											"value": "inventaires"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET succursales/:id - Avec fields & expand",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4500/succursales/5d9d484407ed6b3a2c8be8e0?expand=inventaires&fields=appelatif,ville,     href",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"succursales",
+										"5d9d484407ed6b3a2c8be8e0"
+									],
+									"query": [
+										{
+											"key": "expand",
+											"value": "inventaires"
+										},
+										{
+											"key": "fields",
+											"value": "appelatif,ville,     href"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Livre Request",
+					"item": [
+						{
+							"name": "POST livres/ - Avec commentaire dans JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\n            \"categorie\": \"Informatique\",\n            \"titre\": \"Rumba\",\n            \"prix\": 121,\n            \"auteur\": \"Roberto\",\n            \"sujet\": \"LA balayeuse super inteligente\",\n            \"ISBN\": \"121233\",\n            \"commentaires\": [\n                {\n                    \"dateCommentaire\": \"1970-01-01T00:00:01.995Z\",\n                    \"message\": \"Très bon livre, best seller\",\n                    \"etoile\": 10\n                }\n            ]\n        }"
+								},
+								"url": {
+									"raw": "http://localhost:4500/livres?",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"livres"
+									],
+									"query": [
+										{
+											"key": "categorie",
+											"value": "Inimaginable",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST livres/ - Sans commentaire dans le JSON",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\n            \"categorie\": \"Informatique\",\n            \"titre\": \"Rumbert\",\n            \"prix\": 11,\n            \"auteur\": \"Roberto\",\n            \"sujet\": \"LA balayeuse super inteligente\",\n            \"ISBN\": \"1212331\"\n        }"
+								},
+								"url": {
+									"raw": "http://localhost:4500/livres?",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"livres"
+									],
+									"query": [
+										{
+											"key": "categorie",
+											"value": "Inimaginable",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET livres/ - Avec une catégorie spécifié",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:4500/livres?categorie=Inimaginable",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"livres"
+									],
+									"query": [
+										{
+											"key": "categorie",
+											"value": "Inimaginable"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET livres/ - Sans catégorie spécifié",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4500/livres",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"livres"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET livres/ - Avec limit & offset",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:4500/livres?limit=2&offset=1",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"livres"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "2"
+										},
+										{
+											"key": "offset",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Errors",
+					"item": [
+						{
+							"name": "Error : GET livres/ - Avec limit || offset NaN",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:4500/livres?limit=a&offset=1",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"livres"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "a"
+										},
+										{
+											"key": "offset",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error : POST livres/ - Aucun request body ",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:4500/livres",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"livres"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Error : GET succursales/ - id n'existe pas",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:4500/succursales/1",
+									"host": [
+										"localhost"
+									],
+									"port": "4500",
+									"path": [
+										"succursales",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Vincent",
+			"item": [
+				{
+					"name": "http://localhost:4500/succursales/uuidSuccursale?body=true",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"appelatif\": \"s3 Changé\",\r\n    \"addresse\": \"12345 rue Suc\",\r\n    \"ville\": \"SuccurCity\",\r\n    \"codePostal\": \"J2J 3K3\",\r\n    \"province\": \"Qc\",\r\n    \"telephone\": \"1234567891\",\r\n    \"telecopieur\": \"123123124\",\r\n    \"information\": \"Juste un succursale chagée\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4500/succursales/5da10263f5786828c46e9426?body=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"succursales",
+								"5da10263f5786828c46e9426"
+							],
+							"query": [
+								{
+									"key": "body",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Put succursale body = true pas d'erreures"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:4500/succursales/uuidSuccursale?body=true",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"appelatif\": \"s3333 Changé\",\r\n    \"addresse\": \"12345 rue Suc\",\r\n    \"ville\": \"SuccurCity\",\r\n    \"codePostal\": \"J2J 3K3\",\r\n    \"province\": \"Qc\",\r\n    \"telephone\": \"1234567891\",\r\n    \"information\": \"Juste un succursale chagée avec err\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4500/succursales/5da10263f5786828c46e9426?body=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"succursales",
+								"5da10263f5786828c46e9426"
+							],
+							"query": [
+								{
+									"key": "body",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Put modification complette d'une succursale (fail) pas tous les arguments\n\nbody = true"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:4500/succursales/uuidSuccursale?body=false",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"appelatif\": \"s3 Changé\",\r\n    \"addresse\": \"12345 rue Suc\",\r\n    \"ville\": \"SuccurCity\",\r\n    \"codePostal\": \"J2J 3K3\",\r\n    \"province\": \"Qc\",\r\n    \"telephone\": \"1234567891\",\r\n    \"telecopieur\": \"123123124\",\r\n    \"information\": \"Juste un succursale chagée\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4500/succursales/5da10263f5786828c46e9426?body=false",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"succursales",
+								"5da10263f5786828c46e9426"
+							],
+							"query": [
+								{
+									"key": "body",
+									"value": "false"
+								}
+							]
+						},
+						"description": "mise a jour complete fonctionelle\nbody = false\n\n\nne pas oublier de changer le uuid a chaque fois"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:4500/succursales/uuidSuccursale?body=false",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"appelatif\": \"s3333 Changé\",\r\n    \"addresse\": \"12345 rue Suc\",\r\n    \"ville\": \"SuccurCity\",\r\n    \"codePostal\": \"J2J 3K3\",\r\n    \"province\": \"Qc\",\r\n    \"telephone\": \"1234567891\",\r\n    \"information\": \"Juste un succursale chagée avec err\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4500/succursales/5da10263f5786828c46e9426?body=false",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"succursales",
+								"5da10263f5786828c46e9426"
+							],
+							"query": [
+								{
+									"key": "body",
+									"value": "false"
+								}
+							]
+						},
+						"description": "mise a jour complete avec erreures \nbody = false (change rien)"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:4500/succursales/",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"appelatif\": \"s1\",\r\n    \"addresse\": \"123 rue Suc\",\r\n    \"ville\": \"SucCity\",\r\n    \"codePostal\": \"J1J 2K2\",\r\n    \"province\": \"QC\",\r\n    \"telephone\": \"1234567890\",\r\n    \"telecopieur\": \"123123123\",\r\n    \"information\": \"Juste un succursale\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:4500/succursales/",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"succursales",
+								""
+							]
+						},
+						"description": "ajouter une succursale"
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:4500/succursales/",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"appelatif\": \"s1\",\r\n    \"addresse\": \"123 rue Suc\",\r\n    \"ville\": \"SucCity\",\r\n    \"codePostal\": \"J1J 2K2\",\r\n    \"province\": \"QC\",\r\n    \"telephone\": \"1234567890\",\r\n    \"telecopieur\": \"123123123\",\r\n    \"information\": \"Juste un succursale\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:4500/succursales?body=false",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"succursales"
+							],
+							"query": [
+								{
+									"key": "body",
+									"value": "false"
+								}
+							]
+						},
+						"description": "création d'une nouvelle succursale\nbody = false"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:4500/livres/5da08e8c5698682e749faf3f",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4500/livres/5da08e8c5698682e749faf3f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"livres",
+								"5da08e8c5698682e749faf3f"
+							]
+						},
+						"description": "delete d'un livre, ne pas oublier de changer le uuid\n"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:4500/livres/5d9f611af5feb31a18d30414/inventaire",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4500/livres/5d9f611af5feb31a18d30414/inventaire",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4500",
+							"path": [
+								"livres",
+								"5d9f611af5feb31a18d30414",
+								"inventaire"
+							]
+						},
+						"description": "slection des inventaire d'un livre \nchanger le uuid du livre si ca marche pu"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
