@@ -64,14 +64,14 @@ router.put("/:uuidSuccursale", async(req, res, next) => {
         {
             const UpdSuccursale = new Succursale(req.body);
             if (!UpdSuccursale.appelatif || !UpdSuccursale.addresse|| !UpdSuccursale.ville|| !UpdSuccursale.codePostal|| !UpdSuccursale.province|| !UpdSuccursale.telephone|| !UpdSuccursale.telecopieur|| !UpdSuccursale.information)
-                res.status(417).json("manque un ou plusieurs arguments");
+                next(new createError.ExpectationFailed()); //im not a teapot
             else
                 UpdSuccursale.save();
             
             if (Succursale.findOne({_id: UpdSuccursale.id}))
                 await Succursale.deleteOne(SuccursaleTrouvee);
             else
-                res.status(400).json("imposible de mettre la modification en BD"); //très rare voir impossible (prévention)
+            next(new createError.BadRequest()); //rare mais peut arriver
 
 
             if(req.query._body == "false")
@@ -86,7 +86,7 @@ router.put("/:uuidSuccursale", async(req, res, next) => {
 
         }
         else{
-            res.status(404).json("la succursale du uuid n'à pas été trouvée");
+            next(new createError.NotFound());
             //throw new InternalServerError("Cannot find la Succursale");            
         }
 
