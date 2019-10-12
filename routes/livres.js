@@ -138,8 +138,6 @@ router.get("/:uuidLivre/inventaire", async (req, res, next) => {
 // Réponse:    Collection sans meta-data
 router.get("/categories", async (req, res, next) => {
     // Sélection de toutes les catégories
-    try {
-      
         let tousLivres = Livre.find({}, "categorie");    // Trouver tous les livres / tester s'il y en a 
     
         try {
@@ -150,15 +148,12 @@ router.get("/categories", async (req, res, next) => {
                 res.status(200).json(toutesCategories);// Renvoyer en réponse l'objet modifié
             }
             else{
-                next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+                next(new createError.BadRequest(err));
             }
         } catch (err) {
-            next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+            next(new createError.BadRequest(err));
         }
-    } catch (err) {
-
-        next(new createError.BadRequest(err));
-    }
+    
 });
 // URL:        /livres/{uuidLivre}
 // Parametres: expand (collection d'inventaire) & fields (select. attrib. spécif.)
@@ -179,7 +174,7 @@ router.get("/:uuidLivre", async(req, res, next) => {
         }
         res.status(200).json(livresRequete);
     } catch (err) {
-        next(new createError.InternalServerError(err.message)); 
+        next(new createError.NotFound(err.message)); 
     }
 
 });
@@ -227,10 +222,7 @@ router.patch("/:uuidLivre", async(req, res, next) => {
 // Ajouter un header
 router.post("/:uuidLivre/commentaires", async(req, res, next) => {
     // Ajouter un commentaire à propos d'un livre
-    try {
-
         let livreRequete = Livre.findOne({_id: req.params.uuidLivre});    // Trouver le bon livre pour ajouter le commentaire
-    
         try {
             let livreCherche = await livreRequete;
 
@@ -250,7 +242,6 @@ router.post("/:uuidLivre/commentaires", async(req, res, next) => {
                     res.status(200).json();            // Ne pas renvoyer d'objet
                 else
                     res.status(200).json(livreCherche);// Renvoyer en réponse l'objet modifié
-          
             }
             else{
                 next(new createError.NotFound());
@@ -258,10 +249,6 @@ router.post("/:uuidLivre/commentaires", async(req, res, next) => {
         } catch (err) {
             next(new createError.NotFound());
         }
-    } catch (err) {
-
-        next(new createError.BadRequest(err));
-    }
 });
 
 // *****************************************************************************************
