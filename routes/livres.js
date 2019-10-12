@@ -206,7 +206,7 @@ router.patch("/:uuidLivre", async(req, res, next) => {
 // Parametres: _body permet de retourner la représ. de l'objet dans la réponse
 // Réponse:    Objet
 // Ajouter un header
-router.post("/livres/:uuidLivre/commentaires", async(req, res, next) => {
+router.post("/:uuidLivre/commentaires", async(req, res, next) => {
     // Ajouter un commentaire à propos d'un livre
     try {
 
@@ -217,18 +217,27 @@ router.post("/livres/:uuidLivre/commentaires", async(req, res, next) => {
 
             if(livreCherche)
             {
-                // Savoir s'il y a un commentaire
-                if(livreCherche.commentaires)
-                {
-                    
+                const maintenant = moment();
+                const com = {
+                    dateCommentaire: maintenant,
+                    message:req.body.message,
+                    etoile:req.body.etoile
                 }
-                livreCherche.commentaires.push(req.body)
+
+                livreCherche.commentaires.push(com)
+                livreCherche = await livreCherche.save();
+
+                if(req.query._body=="false")
+                    res.status(200).json();            // Ne pas renvoyer d'objet
+                else
+                    res.status(200).json(livreCherche);// Renvoyer en réponse l'objet modifié
+          
             }
             else{
-                next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+                next(new createError.NotFound());
             }
         } catch (err) {
-            next(new createError.NotFound("Le livre correspondant à l'ID :" + req.params.uuidLivre + " est introuvable"))
+            next(new createError.NotFound());
         }
     } catch (err) {
 
@@ -236,10 +245,7 @@ router.post("/livres/:uuidLivre/commentaires", async(req, res, next) => {
     }
 });
 
-
 // *****************************************************************************************
-
-
 
 router.put('/', (req, res, next) => {
     next(new createError.MethodNotAllowed());
