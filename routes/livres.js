@@ -92,11 +92,11 @@ router.delete("/:uuidLivre", async (req, res, next) => {
         if(LivreASup)
         {
             Livre.deleteOne({_id: LivreASup.id});
-            res.status(204).json("le livre est parti en fumé");
+            res.status(204).json("le livre est parti en fumé"); //
         }
         else
         {
-            res.status(404).json("Le livre que vous tenter de supprimer n'à pas été trouvé!");
+            next(new createError.NotFound());
         }
 
 
@@ -108,7 +108,22 @@ router.delete("/:uuidLivre", async (req, res, next) => {
 
 router.get("/:uuidLivre/inventaire", async (req, res, next) => {
     // route VL
-    try { }
+    let livreTrouvee = await Livre.findOne({_id: req.params.uuidLivre});
+    try { 
+
+        if(livreTrouvee)
+        {
+            console.log(livreTrouvee);
+            res.status(302).json(livreTrouvee.inventaires);
+
+        }
+        else
+        {
+            next(new createError.NotFound());
+        }
+
+
+    }
     catch (err) {
         next(new createError.InternalServerError(err.message));
     }
