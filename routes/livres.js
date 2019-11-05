@@ -5,6 +5,7 @@ const createError = require('http-errors');
 
 const router = express.Router();
 const Livre = mongoose.model('Livre');
+const Succursale = mongoose.model('Succursale');
 
 // *** Route a Francis *** //
 // Corp de req : le livre
@@ -155,6 +156,28 @@ router.get("/categories", async (req, res, next) => {
         }
     
 });
+
+// URL:        /succursales
+router.get("/succursales", async (req, res, next) => {
+    // Sélection de toutes les succursales
+        let tousLivres = await Succursale.find({});    // Trouver tous les livres / tester s'il y en a 
+    
+        try {
+           // let toutesSuccursales = await tousLivres;
+
+            if(tousLivres)
+            {
+                res.status(200).json(tousLivres);// Renvoyer en réponse l'objet modifié
+            }
+            else{
+                next(new createError.BadRequest(err));
+            }
+        } catch (err) {
+            next(new createError.BadRequest(err));
+        }
+    
+});
+
 // URL:        /livres/{uuidLivre}
 // Parametres: expand (collection d'inventaire) & fields (select. attrib. spécif.)
 // Réponse:    Objet
