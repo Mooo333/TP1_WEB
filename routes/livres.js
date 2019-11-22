@@ -14,16 +14,20 @@ router.post("/", async(req, res, next) => {
     const dateNow = moment();
     const newLivre = new Livre(req.body);
     const basicComment = {
-        dateCommentaire: dateNow
+        dateCommentaire: dateNow,
+        nom: "Anonyme",
+        etoile: "5",
+        message: "Quel bon livre"
     };
 
     if(newLivre){
-        if(newLivre.commentaires.length == 0) 
-            newLivre.commentaires.push(basicComment);
-        else
-            for(i = 0; i < newLivre.commentaires.length;i++){
-                newLivre.commentaires[i].dateCommentaire = dateNow;
-            }
+        newLivre.commentaires.push(basicComment);
+
+        if(!newLivre.titre) newLivre.titre = "Rumba";
+        if(!newLivre.prix) newLivre.prix = "10";
+        if(!newLivre.auteur) newLivre.auteur = "Robert";
+        if(!newLivre.ISBN) newLivre.ISBN = "01010100101";
+        if(!newLivre.categorie) newLivre.categorie = "Informatique";
 
         try {
             let saveLivre = await newLivre.save();
@@ -146,6 +150,7 @@ router.get("/categories", async (req, res, next) => {
 
             if(toutesCategories)
             {
+                
                 res.status(200).json(toutesCategories);// Renvoyer en réponse l'objet modifié
             }
             else{

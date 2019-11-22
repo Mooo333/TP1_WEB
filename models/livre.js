@@ -12,11 +12,14 @@ const livreSchema = new Schema({
     auteur: String,
     sujet: String,
     ISBN: String,
+    auteur: String,
+    etoile: String,
 
     commentaires: [{
         dateCommentaire: Date,
         message: String,
-        etoile: Number
+        etoile: Number,
+        nom: String
 	}]
 },{
     collection: 'Livres',
